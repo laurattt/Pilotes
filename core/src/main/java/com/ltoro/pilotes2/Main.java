@@ -30,7 +30,7 @@ public class Main extends ApplicationAdapter {
 
         // Moviment
         posx = posy = 0f;
-        velx = vely = 1f;
+        velx = vely = 3f;
     }
 
 
@@ -44,8 +44,23 @@ public class Main extends ApplicationAdapter {
         batch.setProjectionMatrix(viewport.getCamera().combined);
 
         // Calculem
+        float width = viewport.getWorldWidth();
+        float height = viewport.getWorldHeight();
+
         float delta = Gdx.graphics.getDeltaTime();
         posx = posx + velx * delta;
+        posy = posy + vely * delta;
+
+        // rebotes
+        float size = 1f; //pelota medida rebota para que salga ok
+
+        if (posx + size >= width || posx <= 0) {
+            velx = velx * -1; // la velocidad maneja el rebote
+        }
+
+        if (posy + size >= height || posy <= 0) {
+            vely = vely * -1;
+        }
 
         // pintem!
         batch.begin();
